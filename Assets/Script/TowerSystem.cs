@@ -11,6 +11,7 @@ public class TowerSystem : MonoBehaviour {
     public float Distance;//攻撃範囲
     public float Interval;//攻撃頻度
     public float ShootSpeed;//弾の速度
+    public GameObject Target;//狙い
 
     protected bool fire;
     protected float timer;
@@ -37,6 +38,8 @@ public class TowerSystem : MonoBehaviour {
             {
                 return;
             }
+            //Debug.Log("aaaaaa");
+            Target = Search.colList_nomal[0];
             ShootPoint.transform.LookAt(Search.colList_nomal[0].transform);
             if (timer >= Interval)
             {
@@ -51,7 +54,8 @@ public class TowerSystem : MonoBehaviour {
     {
         if (fire)
         {
-            shooter.ShotOnly(ShootPoint.transform, Bullet, ShootSpeed, ATK, Distance);
+            
+            shooter.ShotOnly(ShootPoint.transform, Bullet, gameObject);
             fire = false;
         }
     }

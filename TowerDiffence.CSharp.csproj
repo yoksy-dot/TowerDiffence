@@ -81,6 +81,7 @@
     <Compile Include="Assets\Script\AutoShooter.cs" />
     <Compile Include="Assets\Script\BombSystem.cs" />
     <Compile Include="Assets\Script\Bullet.cs" />
+    <Compile Include="Assets\Script\Bullet_Missile.cs" />
     <Compile Include="Assets\Script\EnemyData.cs" />
     <Compile Include="Assets\Script\NavSystem.cs" />
     <Compile Include="Assets\Script\SearchFlags.cs" />

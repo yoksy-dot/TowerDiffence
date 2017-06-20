@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour {
+    //BulletのPublicは基本的に触らないこと
 
+    public GameObject ShootTower;//これを発射したタワー
     public GameObject BombObj;
 
     public float ATK;
@@ -12,21 +14,21 @@ public class Bullet : MonoBehaviour {
     public bool CanBomb;
 
 
-    private float timer;
-    private BombSystem bombsys;
+    protected float timer;
+    protected BombSystem bombsys;
 
-	// Use this for initialization
-	void Start () {
+    //オーバーライド可
+    public virtual void Start () {
         if(CanBomb)
             bombsys = BombObj.GetComponent<BombSystem>();
         timer = 0;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        timer += Time.deltaTime;
 
-        if(timer >= BreakTime)
+    //オーバーライド可
+    public virtual void Update () {
+        TimerCount();
+
+        if (timer >= BreakTime)
         {
             Destroy(gameObject);
             timer = 0;
@@ -47,7 +49,18 @@ public class Bullet : MonoBehaviour {
                 timer = 0;
             }
 
-            //Debug.Log("AAAAAA!");
+            
         }
+
+        //if (coll.gameObject.tag == "Search")//射程外なら何もせずに削除
+        //{
+        //    Destroy(gameObject);
+        //    timer = 0;
+        //}
+    }
+
+    protected void TimerCount()
+    {
+        timer += Time.deltaTime;
     }
 }

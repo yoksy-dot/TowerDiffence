@@ -9,6 +9,11 @@ public class TowerSystem_AntiAir : TowerSystem {
 	public override void Update () {
         TimerCount();
 
+        if (Search.Nomal)
+        {
+            return;
+        }
+
         if (Search.Air)//敵発見
         {
             if (Search.colList_Air[0] == null)

@@ -33,7 +33,7 @@ public class BombSystem : MonoBehaviour {
     public void MakeBomb(GameObject Prefab, Transform qwe, float atk)
     {
         GameObject Bullet = (GameObject)Instantiate(Prefab, qwe.position, qwe.rotation);
-        Rigidbody Bullet1Rigidbody = Bullet.GetComponent<Rigidbody>();
+        //Rigidbody Bullet1Rigidbody = Bullet.GetComponent<Rigidbody>();
         BombATK = atk;
     }
 }

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class AutoShooter : MonoBehaviour {
 
-    public void ShotOnly(Transform qwe, GameObject Prefab, float Speed, float atk, float distance)
+    public void ShotOnly(Transform qwe, GameObject Prefab, GameObject ShootTower)
     {//発射する弾の情報も載せたい
+        TowerSystem tower = ShootTower.GetComponent<TowerSystem>();//発射した塔の情報
 
         // プレファブから砲弾(Bullet1)オブジェクトを作成し、それをBullet1という名前の箱に入れる。
         GameObject Bullet1 = (GameObject)Instantiate(Prefab, qwe.position, qwe.rotation);
@@ -15,10 +16,11 @@ public class AutoShooter : MonoBehaviour {
 
         Bullet BulletData = Bullet1.GetComponent<Bullet>();
 
-        BulletData.ATK = atk;
-        BulletData.BreakTime = distance;
+        BulletData.ShootTower = ShootTower;
+        BulletData.ATK = tower.ATK;
+        BulletData.BreakTime = tower.Distance;
         // Bullet1Rigidbodyにz軸方向の力を加える。
-        Bullet1Rigidbody.AddForce(qwe.forward * Speed);
+        Bullet1Rigidbody.AddForce(qwe.forward * tower.ShootSpeed);
 
     }
 }

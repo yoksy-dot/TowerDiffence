@@ -13,6 +13,7 @@ public class EnemyData : MonoBehaviour {
 
     private NavMeshAgent Nav;
     private Bullet bullet;
+    private Bullet_Missile bullet2;
     private BombSystem bomsys;
     private StageSystem stage;
 
@@ -49,9 +50,14 @@ public class EnemyData : MonoBehaviour {
         if (coll.gameObject.tag == "Bullet")//弾に当たった時
         {
             bullet = coll.gameObject.GetComponent<Bullet>();
-
+            //Debug.Log(bullet.ATK);
             Now_HP -= bullet.ATK;
-            //Debug.Log("hoge");
+            
+        }
+        else if(coll.gameObject.tag == "BulletMissile")
+        {
+            bullet2 = coll.gameObject.GetComponent<Bullet_Missile>();
+            Now_HP -= bullet2.ATK;
         }
 
         if (coll.gameObject.tag == "Bomb")
