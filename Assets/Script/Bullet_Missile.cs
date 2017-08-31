@@ -27,8 +27,9 @@ public class Bullet_Missile : Bullet
 
     // Update is called once per frame
     public override void Update () {
+        TimerCount();
 
-        if(Target == null)
+        if (Target == null)
         {
             Destroy(gameObject);
             timer = 0;
@@ -37,7 +38,7 @@ public class Bullet_Missile : Bullet
         }
 
         direction = Target.transform.position - transform.position;//向きベクトル決定
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(new Vector3(direction.x, direction.y, direction.z)), CanRotation);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(new Vector3(direction.x, direction.y, direction.z)), CanRotation * Time.deltaTime);
         fire = true;
     }
 

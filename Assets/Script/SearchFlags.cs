@@ -49,14 +49,13 @@ public class SearchFlags : MonoBehaviour {
         
         if (coll.tag == "NomalEnemy" || coll.tag == "AirEnemy" || coll.tag == "HideEnemy")
         {
-            //OnColl = true;
             /*死亡処理*/
             e_data = coll.gameObject.GetComponent<EnemyData>();
-            if (e_data.Now_HP <= 0)//HPが0なら
+            if (GameObject.Find(coll.gameObject.name) == null|| e_data.Now_HP <= 0)//HPが0なら
             {
+                //Debug.Log(coll.gameObject.name);
                 if (coll.tag == "NomalEnemy" && colList_nomal.Contains(coll.gameObject))
                 {
-                    //Debug.Log("llll");
                     colList_nomal.Remove(coll.gameObject);
                 }
 
@@ -115,6 +114,62 @@ public class SearchFlags : MonoBehaviour {
             Hide = false;
             colList_Hide.Remove(coll.gameObject);
         }
+    }
+
+    /*距離を返す関数郡*/
+    public float Re_NomalLength()
+    {
+        if(colList_nomal[0] == null)
+        {
+            return -1;
+        }
+        float a = colList_nomal[0].GetComponent<NavSystem>().Re_GoalLength();
+        if (a == Mathf.Infinity)
+        {
+            return 10000.0f;
+        }
+        else
+            return a;
+    }
+
+    public float Re_AirLength()
+    {
+        if (colList_Air[0] == null)
+        {
+            return -1;
+        }
+        float a = colList_Air[0].GetComponent<NavSystem>().Re_GoalLength();
+        if (a == Mathf.Infinity)
+        {
+            return 10000.0f;
+        }
+        else
+            return a;
+    }
+
+    public float Re_HideLength()
+    {
+        if (colList_Hide[0] == null)
+        {
+            return -1;
+        }
+        float a = colList_Hide[0].GetComponent<NavSystem>().Re_GoalLength();
+        if (a == Mathf.Infinity)
+        {
+            return 10000.0f;
+        }
+        else
+            return a;
+    }
+
+    public void ForErrorFlags()
+    {
+        Nomal = false;
+        Air = false;
+        Hide = false;
+        colList_nomal.Clear();
+        colList_Air.Clear();
+        colList_Hide.Clear();
     }
 
 }
