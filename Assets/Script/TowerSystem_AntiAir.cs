@@ -8,7 +8,7 @@ public class TowerSystem_AntiAir : TowerSystem {
 	//オーバーライド
 	public override void Update () {
         TimerCount();
-
+        nametext.text = gameObject.name;
         if (Search.Nomal)
         {
             return;

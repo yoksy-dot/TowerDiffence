@@ -7,52 +7,49 @@ using UnityEngine;
 
 public class BuildNewTower : MonoBehaviour {
 
+    public int ID;
 
-	public GameObject ui;
-	public GameObject tower1,tower2,tower3,tower4;
+    [SerializeField]
+    private GameObject buildpanel;
+    [SerializeField]
+    private GameObject LvUI;
+    [SerializeField]
+    private GameObject tower1,tower2,tower3,tower4;
 
 	private bool click;
 	private GameObject rootobj;
+    
 
 	private Text _text;
+    private UIStats uistats;
 
 	// Use this for initialization
 	void Start () {
 		rootobj = transform.root.gameObject;
 		//ui.SetActive(false);
 		click = false;
-		_text = ui.transform.Find("name").gameObject.GetComponent<Text>();
+		_text = buildpanel.transform.Find("name").gameObject.GetComponent<Text>();
+        uistats = buildpanel.GetComponentInParent<UIStats>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
-
-	public void maketower()
-	{
-		click = !click;
-		ui.SetActive(click);
-		_text.text = gameObject.name;
-	}
-
-    public void TowerUnAct()
-    {
-        click = false;
-        ui.SetActive(click);
+        _text.text = gameObject.name;
     }
+
 
 	public void BuildTower(int num)
 	{
         //空き地を消してタワーを立てる関数
 		Destroy(gameObject);
-		Destroy(ui.gameObject);
-		GameObject Tower;
+        buildpanel.SetActive(false);
+		GameObject Tower = null;
 		switch (num)
 		{
 			case 0:
 				Tower = (GameObject)Instantiate(tower1, rootobj.transform.position, rootobj.transform.rotation);
-				break;
+                break;
 			case 1:
 				Tower = (GameObject)Instantiate(tower2, rootobj.transform.position, rootobj.transform.rotation);
 				break;
@@ -66,5 +63,12 @@ public class BuildNewTower : MonoBehaviour {
 				break;
 
 		}
-	}
+        if (Tower == null)
+            Debug.Log("タワー生成エラー");
+
+        Tower.transform.parent = rootobj.transform;
+        Tower.GetComponent<TowerSystem>().UI = LvUI;
+        Tower.GetComponent<TowerSystem>().ID = ID;
+        uistats.ChengeBoolFunc();
+    }
 }

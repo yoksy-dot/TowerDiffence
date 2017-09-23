@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 
 public class TowerSystem : MonoBehaviour {
+
+    public int ID;
     public GameObject SearchArea;
     public GameObject ShootPoint;
     public GameObject Bullet;
@@ -21,7 +24,7 @@ public class TowerSystem : MonoBehaviour {
 
     protected SearchFlags Search;
     protected AutoShooter shooter;
-    private Text nametext;
+    protected Text nametext;
 
     private bool click;
 
@@ -29,18 +32,36 @@ public class TowerSystem : MonoBehaviour {
     void Start () {
         Search = SearchArea.GetComponent<SearchFlags>();
         shooter = ShootPoint.GetComponent<AutoShooter>();
+        
         nametext = UI.transform.Find("NameText").GetComponent<Text>();
+        GameObject UICtrl = GameObject.Find("UICtrlObj").gameObject;
+        ALLUICtrl _ALLUICtrl = UICtrl.GetComponent<ALLUICtrl>();
 
         timer = 0;
         fire = false;
         click = false;
+
+        /*イベント関連*/
+        EventTrigger trigger = gameObject.GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener((x) => 
+            {
+                //Debug.Log("Enter!");
+                _ALLUICtrl.UIController(ID);
+            }
+        );
+        trigger.triggers.Add(entry);
+        /*ここまで*/
     }
 	
 	//オーバーライド可
 	public virtual void Update () {
         TimerCount();
+        nametext.text = gameObject.name;
 
-            if (Search.Nomal)//敵発見
+        if (Search.Nomal)//敵発見
             {
                 if (Search.colList_nomal[0] == null)
                 {
@@ -77,16 +98,16 @@ public class TowerSystem : MonoBehaviour {
         timer += Time.deltaTime;
     }
 
-    public void UIViewer()//クリックされればアクティブにする
-    {
-        click = !click;
-        UI.SetActive(click);
-        nametext.text = gameObject.transform.root.name;
-    }
+    //public void UIViewer()//クリックされればアクティブにする
+    //{
+    //    click = !click;
+    //    UI.SetActive(click);
+    //    nametext.text = gameObject.transform.root.name;
+    //}
 
-    public void UICanceler()//ほかのオブジェクトが押されたときに呼び非アクティブ化
-    {
-        click = false;
-        UI.SetActive(click);
-    }
+    //public void UICanceler()//ほかのオブジェクトが押されたときに呼び非アクティブ化
+    //{
+    //    click = false;
+    //    UI.SetActive(click);
+    //}
 }
