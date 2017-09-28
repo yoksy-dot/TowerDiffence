@@ -21,7 +21,7 @@ public class StageSystem : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < wave.Length; i++)
         {
             if (wave[i] == null)
             {

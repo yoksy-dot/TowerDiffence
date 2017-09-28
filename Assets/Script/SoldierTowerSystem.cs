@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class SoldierTowerSystem : MonoBehaviour {
+    public int ID;
+    public GameObject UI;//使用UI
     public GameObject MovingArea;//兵士の移動範囲
     public GameObject SoldierPrefabs;//兵士プレハブ
     public GameObject[] SoldierDefaltPos = new GameObject[4];//兵士の待機場所 
@@ -24,6 +28,7 @@ public class SoldierTowerSystem : MonoBehaviour {
     private bool running;
 
     public SearchFlags search;
+    protected Text nametext;
     private SoldierSystem soldata;
 
 
@@ -33,12 +38,30 @@ public class SoldierTowerSystem : MonoBehaviour {
         running = false;
 
 
-
+        nametext = UI.transform.Find("NameText").GetComponent<Text>();
+        GameObject UICtrl = GameObject.Find("UICtrlObj").gameObject;
+        ALLUICtrl _ALLUICtrl = UICtrl.GetComponent<ALLUICtrl>();
         search = MovingArea.GetComponent<SearchFlags>();
+
+        /*イベント関連*/
+        EventTrigger trigger = gameObject.GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener((x) =>
+        {
+            //Debug.Log("Enter!");
+            _ALLUICtrl.UIController(ID);
+        }
+        );
+        trigger.triggers.Add(entry);
+        /*ここまで*/
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
+        nametext.text = gameObject.name;
+
         if (SoldierMaxCount > SoldierNowCount)//空きがあるなら
         {
             StartCoroutine("MakeSoldierFunc");

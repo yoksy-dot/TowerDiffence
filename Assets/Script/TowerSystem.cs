@@ -12,19 +12,23 @@ public class TowerSystem : MonoBehaviour {
     public GameObject Bullet;
     public GameObject UI;//使用UI
 
-
+    public int LV;//レベル
     public float ATK;//攻撃力
     public float Distance;//攻撃範囲
     public float Interval;//攻撃頻度
     public float ShootSpeed;//弾の速度
     public GameObject Target;//狙い
+    public int LvUPCost;//レベルアップコスト
+    public int AmountSold;//売却額
 
     protected bool fire;
     protected float timer;
+    protected GameObject Stageobj;
 
     protected SearchFlags Search;
     protected AutoShooter shooter;
     protected Text nametext;
+    protected StageSystem _stagesys;
 
     private bool click;
 
@@ -54,6 +58,9 @@ public class TowerSystem : MonoBehaviour {
         );
         trigger.triggers.Add(entry);
         /*ここまで*/
+
+        Stageobj = GameObject.Find("Stage").gameObject;
+        _stagesys = Stageobj.GetComponent<StageSystem>();
     }
 	
 	//オーバーライド可
@@ -98,16 +105,10 @@ public class TowerSystem : MonoBehaviour {
         timer += Time.deltaTime;
     }
 
-    //public void UIViewer()//クリックされればアクティブにする
-    //{
-    //    click = !click;
-    //    UI.SetActive(click);
-    //    nametext.text = gameObject.transform.root.name;
-    //}
+    public void LVUpeer()//LvUP処理
+    {
 
-    //public void UICanceler()//ほかのオブジェクトが押されたときに呼び非アクティブ化
-    //{
-    //    click = false;
-    //    UI.SetActive(click);
-    //}
+        _stagesys.InMoney(LvUPCost * (-1) * LV);
+    }
+    
 }

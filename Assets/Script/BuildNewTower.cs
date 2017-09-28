@@ -14,7 +14,7 @@ public class BuildNewTower : MonoBehaviour {
     [SerializeField]
     private GameObject LvUI;
     [SerializeField]
-    private GameObject tower1,tower2,tower3,tower4;
+    private GameObject tower1,tower2,tower3,tower4,tower5;
 
 	private bool click;
 	private GameObject rootobj;
@@ -59,6 +59,9 @@ public class BuildNewTower : MonoBehaviour {
 			case 3:
 				Tower = (GameObject)Instantiate(tower4, rootobj.transform.position, rootobj.transform.rotation);
 				break;
+            case 4:
+                Tower = (GameObject)Instantiate(tower5, rootobj.transform.position, rootobj.transform.rotation);
+                break;
 			default:
 				break;
 
@@ -67,8 +70,16 @@ public class BuildNewTower : MonoBehaviour {
             Debug.Log("タワー生成エラー");
 
         Tower.transform.parent = rootobj.transform;
-        Tower.GetComponent<TowerSystem>().UI = LvUI;
-        Tower.GetComponent<TowerSystem>().ID = ID;
+        if (num >= 0 && num <= 3)
+        {
+            Tower.GetComponent<TowerSystem>().UI = LvUI;
+            Tower.GetComponent<TowerSystem>().ID = ID;
+        }
+        else
+        {
+            Tower.GetComponent<SoldierTowerSystem>().ID = ID;
+            Tower.GetComponent<SoldierTowerSystem>().UI = LvUI;
+        }
         uistats.ChengeBoolFunc();
     }
 }
